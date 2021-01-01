@@ -591,7 +591,7 @@ Now your URLs should be pretty and normal!
 
 ---
 
-### Calling the backend API from the frontend (safely)
+### Calling the backend API from the frontend
 
 Install `js-cookie` and `axios` from your frontend directory.
 
