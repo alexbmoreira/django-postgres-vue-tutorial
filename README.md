@@ -587,7 +587,7 @@ However there's one last problem. When clicking links in our sample page that Vu
 base: process.env.BASE_URL,
  ```
 
-Now your URLS should be pretty and normal!
+Now your URLs should be pretty and normal!
 
 ---
 
