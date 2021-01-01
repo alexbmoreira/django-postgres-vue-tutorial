@@ -858,6 +858,35 @@ To lint your python code, run the linter.
 flake8 films --config=.flake8
 ```
 
+<!-- ### Lint on save with ESLint for frontend (VSCode)
+
+> Requires ESLint to be installed as a VSCode extention.
+
+If you installed ESLint when setting up your Vue project, go to whatever configuration file you chose (either `package.json` or `.eslintrc.js`) and change the rules to fit your needs. Check out the [ESLint Documentation](https://eslint.org/docs/rules/) for a list of rules.
+
+```
+"rules": {
+	"quotes": ["warn", "single"],
+	"semi": ["warn", "always"],
+	"indent": ["warn", 2],
+	"no-multi-spaces": ["warn"]
+}
+``` -->
+
+### Auto fix on lint with Vue
+
+In your `./frontend/src/package.json` file change your lint script to run with the `--fix` option.
+
+```
+"scripts": {
+	"serve": "vue-cli-service serve",
+	"build": "vue-cli-service build",
+	"lint": "vue-cli-service lint --fix"
+}
+```
+
+Now running `npm run lint` will auto fix any errors in your code.
+
 ### Linting on push to Github
 
 Add a `./scripts` folder and add `lint.sh` to it.
@@ -890,32 +919,3 @@ jobs:
 ```
 
 > The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors.
-
-<!-- ### Lint on save with ESLint for frontend (VSCode)
-
-> Requires ESLint to be installed as a VSCode extention.
-
-If you installed ESLint when setting up your Vue project, go to whatever configuration file you chose (either `package.json` or `.eslintrc.js`) and change the rules to fit your needs. Check out the [ESLint Documentation](https://eslint.org/docs/rules/) for a list of rules.
-
-```
-"rules": {
-	"quotes": ["warn", "single"],
-	"semi": ["warn", "always"],
-	"indent": ["warn", 2],
-	"no-multi-spaces": ["warn"]
-}
-``` -->
-
-### Auto fix on lint with Vue
-
-In your `./frontend/src/package.json` file change your lint script to run with the `--fix` option.
-
-```
-"scripts": {
-	"serve": "vue-cli-service serve",
-	"build": "vue-cli-service build",
-	"lint": "vue-cli-service lint --fix"
-}
-```
-
-Now running `npm run lint` will auto fix any errors in your code.
