@@ -2,6 +2,10 @@ asgiref==3.3.1
 Django==3.1.4
 django-webpack-loader==0.7.0
 djangorestframework==3.12.2
+flake8==3.8.4
+mccabe==0.6.1
 psycopg2==2.8.6
+pycodestyle==2.6.0
+pyflakes==2.2.0
 pytz==2020.5
 sqlparse==0.4.1

@@ -1,0 +1,6 @@
+[flake8]
+exclude = 
+	*migrations*,
+	test_*
+
+max-line-length = 119
