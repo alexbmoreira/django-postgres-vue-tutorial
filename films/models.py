@@ -7,6 +7,10 @@ class Director(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def save(self, *args, **kwargs):
+        self.name = self.name.title()
+        super().save(*args, **kwargs)
+
 class Film(models.Model):
     title = models.CharField(max_length=120)
     release = models.DateField()
