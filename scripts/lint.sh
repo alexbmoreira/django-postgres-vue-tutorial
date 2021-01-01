@@ -3,4 +3,4 @@
 set -e
 set -v
 
-flake8 films --config=.flake8
+python -m flake8 films --config=.flake8
