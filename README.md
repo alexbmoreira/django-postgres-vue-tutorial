@@ -902,6 +902,12 @@ flake8 films --config=.flake8
 
 > The `set -e` flag will exit the terminal on an error. Later this will prevent us from pushing code with linting errors.
 
+Give permissions to make your script executable
+
+```
+chmod u+x scripts/lint.sh
+```
+
 In your repository directory add a `.github/workflows` folder and create a `actions.yml` file in it.
 
 ```
