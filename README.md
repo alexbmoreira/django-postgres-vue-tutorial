@@ -129,6 +129,20 @@ Go to the `/admin` page and log in to verify that superuser is working correctly
 
 `CTRL-C` to stop the server and move on.
 
+### Create requirements
+
+```shell
+pip freeze > requirements.txt
+```
+
+This will create a file or pip packages that can be installed with one command to make it easier to get your project running in a different environment, and should be executed every time you add a new package with pip.
+
+To install packages from a file, run
+
+```shell
+pip install -r requirements.txt
+```
+
 ---
 
 ## Build Django API
