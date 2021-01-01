@@ -920,6 +920,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: make install
       - name: Lint Backend
         run: make run-lint
 ```
