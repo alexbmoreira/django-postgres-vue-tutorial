@@ -434,6 +434,7 @@ cd frontend
 npm install
 npm run serve
 ```
+> If using git, you'll also probably want to delete the `.git` file that's created in your frontend directory. From the frontend directory, simply run `rm -rf .git`.
 
 `CTRL-C` to stop the server and move on.
 
