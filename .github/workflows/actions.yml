@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: make run-lint
+      - name: Lint Backend
+        run: make run-lint
