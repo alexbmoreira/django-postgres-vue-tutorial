@@ -1,6 +1,8 @@
 from django.db import models
 
+
 class Director(models.Model):
+
     name = models.CharField(max_length=50)
     birthday = models.DateField()
 
@@ -11,7 +13,9 @@ class Director(models.Model):
         self.name = self.name.title()
         super().save(*args, **kwargs)
 
+
 class Film(models.Model):
+
     title = models.CharField(max_length=120)
     release = models.DateField()
     runtime = models.IntegerField()

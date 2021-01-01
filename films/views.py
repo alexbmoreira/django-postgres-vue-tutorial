@@ -1,9 +1,10 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Director, Film
-from .serializers import DirectorSerializer, FilmSerializer
+from .models import Director
+from .serializers import DirectorSerializer
+
 
 class DirectorAPIView(APIView):
 
@@ -26,6 +27,7 @@ class DirectorAPIView(APIView):
             return Response(status=status.HTTP_201_CREATED)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class DirectorDetailAPIView(APIView):
 
