@@ -897,7 +897,7 @@ Add a `./scripts` folder and add `lint.sh` to it.
 set -e
 set -v
 
-flake8 films --config=.flake8
+python -m flake8 films --config=.flake8
 ```
 
 > The `set -e` flag will exit the terminal on an error. Later this will prevent us from pushing code with linting errors.
