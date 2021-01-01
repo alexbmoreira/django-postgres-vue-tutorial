@@ -1,3 +1,6 @@
+install:
+	pip install -r requirements.txt
+
 run-frontend:
 	cd frontend && npm run serve
 
