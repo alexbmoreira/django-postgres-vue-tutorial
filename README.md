@@ -683,7 +683,6 @@ Next, configure Tailwind to purge unused styles in production. The `purge: []` a
 Now your `tailwind.config.js` should look like this:
 
 ```
-// tailwind.config.js
 module.exports = {
     purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     darkMode: false, // or 'media' or 'class'
