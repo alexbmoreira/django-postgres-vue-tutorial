@@ -249,6 +249,7 @@ Now we have Models and Serializers for those models. We'll now have to create vi
 Create views first in your `./films/views.py` file. This is quite a bit more code than some of the previous topics, so I only create them for directors here.
 
 ```
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
