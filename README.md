@@ -4,17 +4,17 @@
 
 This is a quick guide on how to get get started with building a webapp using the following languages and frameworks:
 
-- Django
-- Django REST Framework
-- PostgreSQL
-- Vue.js
-- TailwindCSS
+- [Django](https://docs.djangoproject.com/en/3.1/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+- [PostgreSQL](https://www.postgresql.org/docs/13/index.html)
+- [Vue.js](https://vuejs.org/v2/guide/)
+- [TailwindCSS](https://tailwindcss.com/docs)
 
 This isn't meant for learning how to use them, but more how to set them up together. I'll give some simple examples to get the ball rolling, but for more specific things, check out the documentation linked above.
 
 This setup of using these languages and frameworks together isn't the only way to do things, nor is it the best, but it works. Hopefully it can be a useful all-in-one guide for anyone whole wants to use these tools together!
 
----
+----
 
 ## Initial Setup
 
@@ -39,7 +39,7 @@ pip install django
 pip install djangorestframework
 ```
 
----
+----
 
 ## Set Up Django Project
 
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 ]
 ```
 
----
+----
 
 ## Add PostgreSQL
 
@@ -143,7 +143,7 @@ To install packages from a file, run
 pip install -r requirements.txt
 ```
 
----
+----
 
 ## Build Django API
 
@@ -229,7 +229,7 @@ admin.site.register(Film)
 
 Now you can run your server again, and add objects to your database through the admin page.
 
----
+----
 
 ## Django API Extras
 
@@ -330,7 +330,7 @@ urlpatterns = [
 
 Load up your server, got to /api/\<whatever your urls are\> and you should see whatever data you have in your database. You've made a REST API with Django and PostgreSQL!
 
----
+----
 
 ## Setting Up Automated Testing
 
@@ -589,7 +589,7 @@ base: process.env.BASE_URL,
 
 Now your URLs should be pretty and normal!
 
----
+----
 
 ## Calling the backend API from the frontend
 
@@ -657,7 +657,7 @@ export default {
 
 Now just display your data in the Vue template however you like!
 
----  
+----  
 
 ## Adding Tailwind
 
@@ -713,7 +713,7 @@ Finally, import `tailwind.css` in your `./src/main.js` file
 import "./assets/css/tailwind.css";
 ```
 
----
+----
 
 ## Customizing Tailwind
 
@@ -803,7 +803,7 @@ Now just add the `font-quicksand` class (or whatever class name you gave your fo
 
 [Tailwind: Utilities for controlling the font family of an element.](https://tailwindcss.com/docs/font-family)
 
----
+----
 
 ## Creating a Makefile
 
@@ -829,7 +829,7 @@ run-lint:
 
 From there, running `make frontend` (or any command you add) will run the commands underneath!
 
----
+----
 
 ## Adding linting
 
@@ -919,3 +919,24 @@ jobs:
 ```
 
 > The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors.
+
+----
+
+## Reference
+
+### Documentation
+
+- [Django](https://docs.djangoproject.com/en/3.1/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+- [PostgreSQL](https://www.postgresql.org/docs/13/index.html)
+- [Vue.js](https://vuejs.org/v2/guide/)
+- [TailwindCSS](https://tailwindcss.com/docs)
+- [ESLint](https://eslint.org/docs/user-guide/configuring)
+- [Flake8](https://flake8.pycqa.org/en/latest/)
+- [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
+
+### Helpful links
+
+- [How to use PostgreSQL with Django](https://www.enterprisedb.com/postgres-tutorials/how-use-postgresql-django)
+- [The Complete Guide to Django REST Framework and Vue JS](https://www.udemy.com/course/the-complete-guide-to-django-rest-framework-and-vue-js/)
+
