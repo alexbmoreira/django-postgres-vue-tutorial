@@ -591,7 +591,9 @@ Now your URLs should be pretty and normal!
 
 ---
 
-### Calling the backend API from the frontend
+## Calling the backend API from the frontend
+
+### Set up API service
 
 Install `js-cookie` and `axios` from your frontend directory.
 
@@ -616,6 +618,8 @@ export default axios.create({
 	}
 })
 ```
+
+### Making calls
 
 In that same `api` directory, create a file for some API calls. You can call this anythin you like, but in my case I'll do `directors.js`. This is where you make backend calls to get data.
 
