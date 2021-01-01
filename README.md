@@ -885,7 +885,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: make run-lint
+      - name: Lint Backend
+        run: make run-lint
 ```
 
 > The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors.
