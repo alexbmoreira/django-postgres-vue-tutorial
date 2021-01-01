@@ -725,6 +725,7 @@ In your `tailwind.config.js` file, add a `screens` section to the `theme` sectio
 
 ```
 module.exports = {
+  // ...
   theme: {
     screens: {
       '2xl': {'max': '1535px'},
@@ -743,6 +744,7 @@ module.exports = {
       // => @media (max-width: 639px) { ... }
     }
   }
+  // ...
 }
 ```
 
@@ -769,11 +771,14 @@ In there, add a class name as a key (this can be anything you like), with and ar
 
 ```
 module.exports = {
+  // ...
   theme: {
     fontFamily: {
       'quicksand': ['Quicksand', 'sans-serif']
-    }
+    },
+    // ...
   }
+  // ...
 }
 ```
 
