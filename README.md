@@ -431,6 +431,7 @@ To run your development server, just move into the directory and run with npm.
 
 ```shell
 cd frontend
+npm install
 npm run serve
 ```
 
