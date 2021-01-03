@@ -564,7 +564,7 @@ Finally, update your `./templates/index.html` file to load from the webpack load
 </html>
 ```
 
-> You can also delete the `./frontend/public` directory, since your Vue compnents will be mounted with Django now instead.
+> You can also delete the `./frontend/public` directory, since your Vue components will be mounted with Django now instead.
 
 Now run your Vue server in one terminal...
 
