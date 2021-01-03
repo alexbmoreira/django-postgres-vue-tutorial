@@ -621,7 +621,7 @@ export default axios.create({
 
 ### Making calls
 
-In that same `api` directory, create a file for some API calls. You can call this anythin you like, but in my case I'll do `directors.js`. This is where you make backend calls to get data.
+In that same `api` directory, create a file for some API calls. You can call this anything you like, but in my case I'll do `directors.js`. This is where you make backend calls to get data.
 
 ```
 import api from '@/api/api.service'
