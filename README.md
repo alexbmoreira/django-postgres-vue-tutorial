@@ -16,6 +16,47 @@ This setup of using these languages and frameworks together isn't the only way t
 
 ----
 
+## Contents
+
+- [Initial Setup](#initial-setup)
+- [Set Up Django Project](#set-up-django-project)
+- [Add PostgreSQL](#add-postgresql)
+    - [Configuring Django to use PostgreSQL](#configuring-django-to-use-postgresql)
+    - [Getting the database running](#getting-the-database-running)
+    - [Create requirements](#create-requirements)
+- [Build Django API](#build-django-api)
+    - [Create the app](#create-the-app)
+    - [Creating models](#creating-models)
+    - [Migrations for the Postgres database](#migrations-for-the-postgres-database)
+- [Django API Extras](#django-api-extras)
+    - [Create serializers](#create-serializers)
+    - [Creating views](#creating-views)
+- [Setting Up Automated Testing](#setting-up-automated-testing)
+- [Adding Vue.js](#adding-vuejs)
+    - [Configure Django to look for files created by Vue](#configure-django-to-look-for-files-created-by-vue)
+    - [Creating a Vue frontend](#creating-a-vue-frontend)
+    - [Install webpack bundle tracker for Vue](#install-webpack-bundle-tracker-for-vue)
+    - [Install webpack loader for Django](#install-webpack-loader-for-django)
+- [Calling the backend API from the frontend](#calling-the-backend-api-from-the-frontend)
+    - [Set up API service](#set-up-api-service)
+    - [Making calls](#making-calls)
+- [Adding Tailwind](#adding-tailwind)
+    - [Install Tailwind](#install-tailwind)
+    - [Create config files](#create-config-files)
+    - [Include Tailwind in your CSS](#include-tailwind-in-your-css)
+- [Customizing Tailwind](#customizing-tailwind)
+    - [Changing breaksizes from min width to max width](#changing-breaksizes-from-min-width-to-max-width)
+    - [Adding Google Fonts](#adding-google-fonts)
+- [Creating a Makefile](#creating-a-makefile)
+- [Adding linting](#adding-linting)
+    - [Linting Python with Flake8](#linting-python-with-flake8)
+    - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
+    - [Linting on push to Github](#linting-on-push-to-github)
+- [Reference](#reference)
+
+
+----
+
 ## Initial Setup
 
 Create project directory
