@@ -12,7 +12,7 @@ This is a quick guide on how to get get started with building a webapp using the
 
 This isn't meant for learning how to use them, but more how to set them up together. I'll give some simple examples to get the ball rolling, but for more specific things, check out the documentation linked above.
 
-This setup of using these languages and frameworks together isn't the only way to do things, nor is it the best, but it works. Hopefully it can be a useful all-in-one guide for anyone whole wants to use these tools together!
+This setup of using these languages and frameworks together isn't the only way to do things, nor is it the best, but it works. Since I like using all these together, I've made an all-in-one guide for how to set everything up from scratch. You can skip whichever smaller parts you don't need, but for anyone who would want to use all these tools together as well, this should hopefully be enough to get everything set up!
 
 ----
 
