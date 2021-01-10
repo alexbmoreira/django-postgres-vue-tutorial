@@ -51,7 +51,7 @@ This setup of using these languages and frameworks together isn't the only way t
 - [Adding linting](#adding-linting)
     - [Linting Python with Flake8](#linting-python-with-flake8)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
-    <!-- - [Linting on push to Github](#linting-on-push-to-github) -->
+    - [Linting on push to Github](#linting-on-push-to-github)
 - [Reference](#reference)
 
 
@@ -927,7 +927,7 @@ In your `./frontend/src/package.json` file change your lint script to run with t
 ```
 
 Now running `npm run lint` will auto fix any errors in your code.
-<!-- 
+
 ### Linting on push to Github
 
 Add a `./scripts` folder and add `lint.sh` to it.
@@ -958,7 +958,10 @@ on: [push]
 
 jobs:
   build:
+
+    container: python:3.8-buster
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -967,7 +970,9 @@ jobs:
         run: make run-lint
 ```
 
-> The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors. -->
+> The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors.
+
+Now on every push Github actions will tell you if there are lint errors that need to be corrected.
 
 ----
 
