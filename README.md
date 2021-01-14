@@ -904,7 +904,7 @@ flake8 films --config=.flake8
 
 > Requires ESLint to be installed as a VSCode extention.
 
-If you installed ESLint when setting up your Vue project, go to whatever configuration file you chose (either `package.json` or `.eslintrc.js`) and change the rules to fit your needs. Check out the [ESLint Documentation](https://eslint.org/docs/rules/) for a list of rules.
+If you installed ESLint when setting up your Vue project, go to whatever configuration file you chose (either `package.json` or `.eslintrc.js`) and change the rules to fit your needs. For a list of rules you can apply, check out the [Prettier](https://prettier.io/docs/en/options.html), [ESLint](https://eslint.org/docs/rules/), or [ESLint-Vue Plugin](https://vuejs.github.io/eslint-plugin-vue/rules/) documentation.
 
 ```
 "rules": {
