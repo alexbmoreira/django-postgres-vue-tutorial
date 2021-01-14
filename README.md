@@ -50,6 +50,7 @@ This setup of using these languages and frameworks together isn't the only way t
 - [Creating a Makefile](#creating-a-makefile)
 - [Adding linting](#adding-linting)
     - [Linting Python with Flake8](#linting-python-with-flake8)
+	- [Lint on save with ESLint for frontend (VSCode)](#lint-on-save-with-eslint-for-frontend-vscode)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
     - [Linting on push to Github](#linting-on-push-to-github)
 - [Reference](#reference)
@@ -899,7 +900,7 @@ To lint your python code, run the linter.
 flake8 films --config=.flake8
 ```
 
-<!-- ### Lint on save with ESLint for frontend (VSCode)
+### Lint on save with ESLint for frontend (VSCode)
 
 > Requires ESLint to be installed as a VSCode extention.
 
@@ -912,7 +913,27 @@ If you installed ESLint when setting up your Vue project, go to whatever configu
 	"indent": ["warn", 2],
 	"no-multi-spaces": ["warn"]
 }
-``` -->
+``` 
+
+Next, in your `.vscode/settings.json` file, add the settings to set the `./frontend` directory as the directory in which ESLint will work, as well as settings to lint on save.
+
+```
+"editor.codeActionsOnSave": {
+	"source.fixAll.eslint": true
+},
+"eslint.validate": [
+	"javascript"
+],
+"eslint.workingDirectories": [
+	"./frontend"
+]
+```
+
+ESLint should lint on save now for your Javascript and Vue files. If not, reinstalling it from your `./frontend` directory usually works for me.
+
+```shell
+npm install -D eslint
+```
 
 ### Auto fix on lint with Vue
 
