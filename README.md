@@ -32,6 +32,8 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Create serializers](#create-serializers)
     - [Creating views](#creating-views)
 - [Manage Commands](#manage-commands)
+    - [Creating a command to populate tables](#creating-a-command-to-populate-tables)
+    - [Optional arguments](#optional-arguments)
 - [Setting Up Automated Testing](#setting-up-automated-testing)
 - [Adding Vue.js](#adding-vuejs)
     - [Configure Django to look for files created by Vue](#configure-django-to-look-for-files-created-by-vue)
