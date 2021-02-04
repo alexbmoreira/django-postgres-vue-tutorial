@@ -60,7 +60,6 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Change database settings](#Change-database-settings)
     - [Adding a Procfile](#adding-a-procfile)
     - [Configuring your Django app](#configuring-your-django-app)
-    - [Static files](#static-files)
 - [Deploying Frontend On Firebase](#deploying-frontend-on-firebase)
     - [Hosting your frontend](#hosting-your-frontend)
     - [Adding your Firebase app to CORS Whitelist](#adding-your-firebase-app-to-cors-whitelist)
@@ -1172,7 +1171,7 @@ import django_heroku
 django_heroku.settings(locals())
 ```
 
-Finally, add your Heroku app URL to your `ALLOWED_HOSTS` variable.
+Add your Heroku app URL to your `ALLOWED_HOSTS` variable.
 
 ```
 ALLOWED_HOSTS = [
@@ -1180,11 +1179,7 @@ ALLOWED_HOSTS = [
 ]
 ```
 
-### Static files
-
-> This part is tricky, but I got it working this way and will add as I figure it out more. For now, this is all I had to do.
-
-Add Django's `staticfiles` directory to your gitignore list. Then run `collectstatic`
+Finally, add Django's `staticfiles` directory to your gitignore list. Then run `collectstatic`
 
 ```shell
 python manage.py collectstatic
