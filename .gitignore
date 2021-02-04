@@ -148,3 +148,7 @@ webpack-stats.json
 
 # Static Files
 staticfiles/
+
+# Firebase
+.firebaserc
+.firebase

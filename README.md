@@ -55,12 +55,15 @@ This setup of using these languages and frameworks together isn't the only way t
 	- [Lint on save with ESLint for frontend (VSCode)](#lint-on-save-with-eslint-for-frontend-vscode)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
     - [Linting on push to Github](#linting-on-push-to-github)
-- [Deploying on Heroku](#deploying-on-heroku)
+- [Deploying Backend On Heroku](#deploying-backend-on-heroku)
     - [Python Decouple for config vars](#python-Decouple-for-config-vars)
     - [Change database settings](#Change-database-settings)
     - [Adding a Procfile](#adding-a-procfile)
     - [Configuring your Django app](#configuring-your-django-app)
     - [Static files](#static-files)
+- [Deploying Frontend On Firebase](#deploying-frontend-on-firebase)
+    - [Hosting your frontend](#hosting-your-frontend)
+    - [Adding your Firebase app to CORS Whitelist](#adding-your-firebase-app-to-cors-whitelist)
 - [Reference](#reference)
 
 
@@ -1079,7 +1082,7 @@ Now on every push Github actions will tell you if there are lint errors that nee
 
 ----
 
-## Deploying on Heroku
+## Deploying Backend On Heroku
 
 > This assumes you build your app with a separate frontend and backend API as outlines [here](#adding-vuejs)
 
@@ -1188,6 +1191,60 @@ python manage.py collectstatic
 ```
 
 Now push and make sure it runs on Heroku's end after it installs all the Python dependencies.
+
+----
+
+## Deploying Frontend On Firebase
+
+This part is much, much easier than backend deployment. Again, it assumes you have some knowledge of the basics deploying to Firebase.
+
+### Hosting your frontend
+
+Create a Firebase project.
+
+From your `./frontend` directory, intitialize firebase.
+
+```
+firebase init
+```
+
+These are the settings you'll want to check off:
+
+```
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices. 
+ ◯ Database: Configure Firebase Realtime Database and deploy rules
+ ◯ Firestore: Deploy rules and create indexes for Firestore
+ ◯ Functions: Configure and deploy Cloud Functions
+❯◉ Hosting: Configure and deploy Firebase Hosting sites
+ ◯ Storage: Deploy Cloud Storage security rules
+ ◯ Emulators: Set up local emulators for Firebase features
+ ◯ Remote Config: Get, deploy, and rollback configurations for Remote Config
+
+❯ Use an existing project
+❯ myproject
+
+? What do you want to use as your public directory? dist
+? Configure as a single-page app (rewrite all urls to /index.html)? Yes
+? Set up automatic builds and deploys with GitHub? No
+```
+
+Once your project is set up, build and deploy!
+
+```
+npm run build
+firebase deploy
+```
+
+### Adding your Firebase app to CORS Whitelist
+
+Simply add your firebase URL to the `CORS_ORIGIN_WHITELIST` variable
+
+```
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+    'https://django-vue-postgres.web.app'
+]
+```
 
 ----
 
