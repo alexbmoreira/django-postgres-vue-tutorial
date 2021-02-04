@@ -38,8 +38,10 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Install webpack bundle tracker for Vue](#install-webpack-bundle-tracker-for-vue)
     - [Install webpack loader for Django](#install-webpack-loader-for-django)
 - [Calling the backend API from the frontend](#calling-the-backend-api-from-the-frontend)
+    - [Adding environment variables](#adding-environment-variables)
     - [Set up API service](#set-up-api-service)
     - [Making calls](#making-calls)
+    - [Adding CORS](#adding-cors)
 - [Adding Tailwind](#adding-tailwind)
     - [Install Tailwind](#install-tailwind)
     - [Create config files](#create-config-files)
@@ -53,6 +55,15 @@ This setup of using these languages and frameworks together isn't the only way t
 	- [Lint on save with ESLint for frontend (VSCode)](#lint-on-save-with-eslint-for-frontend-vscode)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
     - [Linting on push to Github](#linting-on-push-to-github)
+- [Deploying Backend On Heroku](#deploying-backend-on-heroku)
+    - [Python Decouple for config vars](#python-Decouple-for-config-vars)
+    - [Change database settings](#Change-database-settings)
+    - [Adding a Procfile](#adding-a-procfile)
+    - [Configuring your Django app](#configuring-your-django-app)
+    - [Static files](#static-files)
+- [Deploying Frontend On Firebase](#deploying-frontend-on-firebase)
+    - [Hosting your frontend](#hosting-your-frontend)
+    - [Adding your Firebase app to CORS Whitelist](#adding-your-firebase-app-to-cors-whitelist)
 - [Reference](#reference)
 
 
@@ -305,6 +316,7 @@ Now we have Models and Serializers for those models. We'll now have to create vi
 Create views first in your `./films/views.py` file. This is quite a bit more code than some of the previous topics, so I only create them for directors here.
 
 ```
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -415,6 +427,18 @@ python manage.py test films
 ```
 
 ## Adding Vue.js
+
+There are two main ways to set up an app with Django and Vue.
+
+The first way is to have Django and Vue act entirely separately. With this method, you build an API with Django, deploy that, then build a Vue frontend that calls that API from another location.
+
+The second is to have your frontend and backend work as one, and just have Django bundle a built Vue folder and display it on its own. To deploy an app built this way, you will essentially be deploying one Django app, and just use Vue to build the frontend that Django is in charge of showing.
+
+There are pros and cons to both, depending on your situation, but in the end you'll be left with a very similar product.
+
+For the first method, all you have to do is create a Vue app<sup>1</sup>, the only real configuration comes when you make calls to the backend later o, and when you deploy. I'll show the linking for the second methods, but for deployment It will be assumed you used the first.
+
+> <sup>1</sup> This can be done in an etirely separate repository, or you can add a frontend right into your current Django project directory. Personally, I usually go with the ladder, but it shouldn't make any difference.
 
 ### Configure Django to look for files created by Vue
 
@@ -627,13 +651,32 @@ However there's one last problem. When clicking links in our sample page that Vu
 
 ```
 base: process.env.BASE_URL,
- ```
+```
 
 Now your URLs should be pretty and normal!
 
 ----
 
 ## Calling the backend API from the frontend
+
+### Adding environment variables
+
+> This part is only necessary if you have separate Vue and Django apps. If you linked them with webpack, you can skip this part.
+
+In your `./frontend` directory, create two files: `.env.development.local` and  `.env.production.local`. Make sure these are ignored by your `.gitignore` file. This will hold environment variables for development and production, respectively, which will allow us to keep track of two separate URLs without changing any code.
+
+In `.env.development.local` add:
+
+```
+VUE_APP_URL=http://localhost:8000
+```
+
+In `.env.production.local` add:
+
+```
+VUE_APP_URL=[your deployed api URL (Heroku, DigitalOcean, etc.)]
+```
+> In my experience, the Viariable *must* be `VUE_APP_URL` or it won't work. You can experiment, of course.
 
 ### Set up API service
 
@@ -652,7 +695,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export default axios.create({
-	baseURL: '/api',
+	baseURL: process.env.VUE_APP_URL + '/api',
 	timeout: 5000,
 	headers: {
 		'Content-Type': 'application/json',
@@ -660,6 +703,7 @@ export default axios.create({
 	}
 })
 ```
+> If you linked your app with webpack, your `baseURL` should just be `'/api'`. The `process.env.VUE_APP_URL` is there to pull whichever environment variable we need.
 
 ### Making calls
 
@@ -698,6 +742,47 @@ export default {
 ```
 
 Now just display your data in the Vue template however you like!
+
+### Adding CORS
+
+> Again, if you linked with webpack, skip this step. You should be good to go at this point!
+
+You'll notice when you try to make a call to your backend you'll get an error saying your request has been blocked by [CORS Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+
+To fix this, start by installing `django-cors-headers`.
+
+```shell
+pip install django-cors-headers
+```
+
+Then, in your `settings.py` file, add `corsheaders` to the `INSTALLED_APPS`, and add the CORS middleware *above* the common middleware, but below the rest. Read more about Django CORS Headers [here](https://github.com/adamchainz/django-cors-headers).
+
+```
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+    ...
+]
+```
+
+```
+MIDDLEWARE = [
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+]
+```
+
+Finally, add your frontend dev server to the `CORS_ORIGIN_WHITELIST` setting.
+
+```
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080'
+]
+```
+
+Now making requests to the backend should work just fine.
 
 ----  
 
@@ -997,6 +1082,178 @@ Now on every push Github actions will tell you if there are lint errors that nee
 
 ----
 
+## Deploying Backend On Heroku
+
+> This assumes you build your app with a separate frontend and backend API as outlines [here](#adding-vuejs)
+
+This assumes you have some knowledge of deploying to Heroku (at least the very basics of using the site itself). To learn more about Using Django Apps on Heroku look [here](https://devcenter.heroku.com/articles/deploying-python) and [here](https://devcenter.heroku.com/articles/django-app-configuration).
+
+### Python Decouple for config vars
+
+> This part may work with `os.environ.get`, but I had issues and am still trying to figure that out. In the meantime, this seems to do the trick.
+
+You'll want a place to put your environment variables once you deploy. To do this install `python-decouple`.
+
+```shell
+pip install python-decouple
+```
+
+Next, create a `.env` file in your root directory (make sure to add it to `.gitignore`) and add your variables.
+
+```
+SECRET_KEY='secret'
+```
+> Note: This file is not for production variables, this is a place to store environment variables for development. Production variables are set on Heroku's end.
+
+Finally, in `settings.py`, import and updated any variables you want hidden in production.
+
+```
+from decouple import config
+
+...
+
+SECRET_KEY = config('SECRET_KEY')
+```
+
+### Change database settings
+
+Heroku's default variable for their database is `DATABASE_URL`. Change your database settings to use that in production.
+
+```
+DATABASES = {
+    'default': {
+        ...
+
+        'HOST': config('DATABASE_URL', 'localhost'),
+        
+        ...
+    }
+}
+```
+
+Once you push, migrate your tables
+
+```shell
+heroku run python manage.py migrate
+```
+
+### Adding a Procfile
+
+First, install `gunicorn` if you don't already have it.
+
+```shell
+pip install gunicorn
+```
+
+Now create a `Procfile` in your root directory and add the following.
+
+```
+web: gunicorn myproject.wsgi
+```
+> `myproject` is the name of whatever directory contains your `wsgi.py` file.
+
+
+### Configuring your Django app
+
+Install and configure `django-heroku`.
+
+```shell
+pip install django-heroku
+```
+
+Then in `settings.py`.
+
+```
+import django_heroku
+
+...
+
+# Bottom of settings.py
+django_heroku.settings(locals())
+```
+
+Finally, add your Heroku app URL to your `ALLOWED_HOSTS` variable.
+
+```
+ALLOWED_HOSTS = [
+    'django-vue-postgres.herokuapp.com'
+]
+```
+
+### Static files
+
+> This part is tricky, but I got it working this way and will add as I figure it out more. For now, this is all I had to do.
+
+Add Django's `staticfiles` directory to your gitignore list. Then run `collectstatic`
+
+```shell
+python manage.py collectstatic
+```
+
+Now push and make sure it runs on Heroku's end after it installs all the Python dependencies.
+
+----
+
+## Deploying Frontend On Firebase
+
+This part is much, much easier than backend deployment. Again, it assumes you have some knowledge of the basics deploying to Firebase.
+
+### Hosting your frontend
+
+Create a Firebase project.
+
+From your `./frontend` directory, intitialize firebase.
+
+```
+firebase init
+```
+
+These are the settings you'll want to check off:
+
+```
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices. 
+ ◯ Database: Configure Firebase Realtime Database and deploy rules
+ ◯ Firestore: Deploy rules and create indexes for Firestore
+ ◯ Functions: Configure and deploy Cloud Functions
+❯◉ Hosting: Configure and deploy Firebase Hosting sites
+ ◯ Storage: Deploy Cloud Storage security rules
+ ◯ Emulators: Set up local emulators for Firebase features
+ ◯ Remote Config: Get, deploy, and rollback configurations for Remote Config
+
+❯ Use an existing project
+❯ myproject
+
+? What do you want to use as your public directory? dist
+? Configure as a single-page app (rewrite all urls to /index.html)? Yes
+? Set up automatic builds and deploys with GitHub? No
+```
+
+Once your project is set up, build and deploy!
+
+```
+npm run build
+firebase deploy
+```
+
+### Adding your Firebase app to CORS Whitelist
+
+Simply add your firebase URL to the `CORS_ORIGIN_WHITELIST` variable
+
+```
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+    'https://django-vue-postgres.web.app'
+]
+```
+
+----
+
+## Congrats! 🎉
+
+You've built and deployed a functional webapp with Django, Vue.js, PostgreSQL, and more!
+
+----
+
 ## Reference
 
 ### Documentation
@@ -1009,6 +1266,8 @@ Now on every push Github actions will tell you if there are lint errors that nee
 - [ESLint](https://eslint.org/docs/user-guide/configuring)
 - [Flake8](https://flake8.pycqa.org/en/latest/)
 - [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
+- [Heroku](https://www.heroku.com)
+- [Firebase](https://firebase.google.com/)
 
 ### Helpful links
 

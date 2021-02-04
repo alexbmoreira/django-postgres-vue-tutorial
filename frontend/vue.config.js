@@ -1,42 +1,44 @@
-const BundleTracker = require('webpack-bundle-tracker');
+// This code is commented out because the app doesn't use webpack
 
-module.exports = {
-    publicPath: 'http://0.0.0.0:8080/',
-    outputDir: './dist/',
+// const BundleTracker = require('webpack-bundle-tracker');
 
-    chainWebpack: config => {
+// module.exports = {
+//     publicPath: 'http://0.0.0.0:8080/',
+//     outputDir: './dist/',
 
-        config
-            .plugin('BundleTracker')
-            .use(BundleTracker, [{filename: './webpack-stats.json'}])
+//     chainWebpack: config => {
 
-        config.output
-            .filename('bundle.js')
+//         config
+//             .plugin('BundleTracker')
+//             .use(BundleTracker, [{filename: './webpack-stats.json'}])
 
-        config.optimization
-        	.splitChunks(false)
+//         config.output
+//             .filename('bundle.js')
 
-        config.resolve.alias
-            .set('__STATIC__', 'static')
+//         config.optimization
+//         	.splitChunks(false)
 
-        config.devServer
-            .public('http://0.0.0.0:8080')    
-            .host('0.0.0.0')    
-            .port(8080)
-            .hotOnly(true)
-            .watchOptions({poll: 1000})
-            .https(false)
-            .disableHostCheck(true)
-            .headers({'Access-Control-Allow-Origin': ['\*']})
+//         config.resolve.alias
+//             .set('__STATIC__', 'static')
 
-    },
+//         config.devServer
+//             .public('http://0.0.0.0:8080')    
+//             .host('0.0.0.0')    
+//             .port(8080)
+//             .hotOnly(true)
+//             .watchOptions({poll: 1000})
+//             .https(false)
+//             .disableHostCheck(true)
+//             .headers({'Access-Control-Allow-Origin': ['\*']})
 
-    // uncomment before executing 'npm run build' 
-    // css: {
-    //     extract: {
-    //       filename: 'bundle.css',
-    //       chunkFilename: 'bundle.css',
-    //     },
-    // }
+//     },
 
-};
+//     // uncomment before executing 'npm run build' 
+//     // css: {
+//     //     extract: {
+//     //       filename: 'bundle.css',
+//     //       chunkFilename: 'bundle.css',
+//     //     },
+//     // }
+
+// };

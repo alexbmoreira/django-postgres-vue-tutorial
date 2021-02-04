@@ -1,3 +1,6 @@
+.DS_Store
+node_modules
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,7 +108,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+.env*
 .venv
 env/
 venv/
@@ -139,3 +142,13 @@ cython_debug/
 
 # VSCode Settings
 .vscode
+
+# Webpack Stats
+webpack-stats.json
+
+# Static Files
+staticfiles/
+
+# Firebase
+.firebaserc
+.firebase
