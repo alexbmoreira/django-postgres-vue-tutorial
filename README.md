@@ -730,9 +730,48 @@ export default {
 </script>
 ```
 
+Now just display your data in the Vue template however you like!
+
 ### Adding CORS
 
-Now just display your data in the Vue template however you like!
+> Again, if you linked with webpack, skip this step. You should be good to go at this point!
+
+You'll notice when you try to make a call to your backend you'll get an error saying your request has been blocked by [CORS Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+
+To fix this, start by installing `django-cors-headers`.
+
+```shell
+pip install django-cors-headers
+```
+
+Then, in your `settings.py` file, add `corsheaders` to the `INSTALLED_APPS`, and add the CORS middleware *above* the common middleware, but below the rest. Read more about Django CORS Headers [here](https://github.com/adamchainz/django-cors-headers).
+
+```
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+    ...
+]
+```
+
+```
+MIDDLEWARE = [
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+]
+```
+
+Finally, add your frontend dev server to the `CORS_ALLOWED_ORIGINS` setting.
+
+```
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080"
+]
+```
+
+Now making requests to the backend should work just fine.
 
 ----  
 
