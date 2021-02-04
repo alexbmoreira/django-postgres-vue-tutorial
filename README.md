@@ -451,6 +451,46 @@ Now running the command will populate your table!
 python manage.py populate
 ```
 
+### Optional arguments
+
+To add an argument to your command (for exdample, `--clear` to completely clear your table) add the `add_arguments` method to your `Command` class. Then update `handle` to check if the argument was passed.
+
+```
+class Command(BaseCommand):
+    
+    ...
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--clear',
+            action='store_true',
+            help='Delete clear the table',
+        )
+
+    def handle(self, *args, **options):
+        directors = []
+        for director in data["directors"]:
+            try:
+                if options["clear"]:
+                    Director.objects.filter(name=director["name"], birthday=director["birthday"]).delete()
+                else:
+                    directors.append(Director(**director))
+            except Exception as e:
+                print(e)
+
+
+        Director.objects.bulk_create(directors)
+```
+> The `try` now checks if the `--clear` flag was passed. If so, it deletes every director that's in the `_directors.py` file.
+    
+Now running...
+
+```shell
+python manage.py populate --clear
+```
+
+will clear the database.
+
 ----
 
 ## Setting Up Automated Testing
