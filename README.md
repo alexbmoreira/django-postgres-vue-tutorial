@@ -32,11 +32,12 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Create serializers](#create-serializers)
     - [Creating views](#creating-views)
 - [Setting Up Automated Testing](#setting-up-automated-testing)
-- [Adding Vue.js](#adding-vuejs)
+- [Adding Vue.js](#adding-vuejs-method-1)
     - [Configure Django to look for files created by Vue](#configure-django-to-look-for-files-created-by-vue)
     - [Creating a Vue frontend](#creating-a-vue-frontend)
     - [Install webpack bundle tracker for Vue](#install-webpack-bundle-tracker-for-vue)
     - [Install webpack loader for Django](#install-webpack-loader-for-django)
+- [Adding Vue.js](#adding-vuejs-method-2)
 - [Calling the backend API from the frontend](#calling-the-backend-api-from-the-frontend)
     - [Set up API service](#set-up-api-service)
     - [Making calls](#making-calls)
@@ -416,11 +417,17 @@ python manage.py test films
 
 ## Adding Vue.js
 
-There are two main ways to set up an app with Django and Vue. The first is to have your frontend and backend work as one, and just have Django bundle a built Vue folder and display it on its own. To deploy an app built this way, you will essentially be deploying one Django app, and just use Vue to build the frontend that Django is in charge of showing.
+There are two main ways to set up an app with Django and Vue.
 
-The second way is to have DJango and Vue act entirely separately. With this method, you build an API with Django, deploy that, then build a Vue frontend that calls that API from another location.
+The first way is to have Django and Vue act entirely separately. With this method, you build an API with Django, deploy that, then build a Vue frontend that calls that API from another location.
 
-There are pros and cons to both, depending on your situation, but in the end you'll be left with a very similar product. I'll show how to link both, but for deployment I'll only show the second methond in this guide.
+The second is to have your frontend and backend work as one, and just have Django bundle a built Vue folder and display it on its own. To deploy an app built this way, you will essentially be deploying one Django app, and just use Vue to build the frontend that Django is in charge of showing.
+
+There are pros and cons to both, depending on your situation, but in the end you'll be left with a very similar product.
+
+For the first method, all you have to do is create a Vue app<sup>1</sup>, the only real configuration comes when you make calls to the backend later o, and when you deploy. I'll show the linking for the second methods, but for deployment It will be assumed you used the first.
+
+> <sup>1</sup> This can be done in an etirely separate repository, or you can add a frontend right into your current Django project directory. Personally, I usually go with the ladder, but it shouldn't make any difference.
 
 ### Configure Django to look for files created by Vue
 
@@ -633,13 +640,32 @@ However there's one last problem. When clicking links in our sample page that Vu
 
 ```
 base: process.env.BASE_URL,
- ```
+```
 
 Now your URLs should be pretty and normal!
 
 ----
 
 ## Calling the backend API from the frontend
+
+### Adding environment variables
+
+> This part is only necessary if you have separate Vue and Django apps. If you linked them with webpack, you can skip this part.
+
+In your `./frontend` directory, create two files: `.env.development.local` and  `.env.production.local`. Make sure these are ignored by your `.gitignore` file. This will hold environment variables for development and production, respectively, which will allow us to keep track of two separate URLs without changing any code.
+
+In `.env.development.local` add:
+
+```
+VUE_APP_URL=http://localhost:8000
+```
+
+In `.env.production.local` add:
+
+```
+VUE_APP_URL=[your deployed api URL (Heroku, DigitalOcean, etc.)]
+```
+> In my experience, the Viariable *must* be `VUE_APP_URL` or it won't work. You can experiment, of course.
 
 ### Set up API service
 
