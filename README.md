@@ -39,8 +39,10 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Install webpack loader for Django](#install-webpack-loader-for-django)
 - [Adding Vue.js](#adding-vuejs-method-2)
 - [Calling the backend API from the frontend](#calling-the-backend-api-from-the-frontend)
+    - [Adding environment variables](#adding-environment-variables)
     - [Set up API service](#set-up-api-service)
     - [Making calls](#making-calls)
+    - [Adding CORS](#adding-cors)
 - [Adding Tailwind](#adding-tailwind)
     - [Install Tailwind](#install-tailwind)
     - [Create config files](#create-config-files)
@@ -763,11 +765,11 @@ MIDDLEWARE = [
 ]
 ```
 
-Finally, add your frontend dev server to the `CORS_ALLOWED_ORIGINS` setting.
+Finally, add your frontend dev server to the `CORS_ORIGIN_WHITELIST` setting.
 
 ```
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080"
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080'
 ]
 ```
 

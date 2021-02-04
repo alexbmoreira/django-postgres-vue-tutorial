@@ -63,7 +63,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,8 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # CORS Settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080"
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080'
 ]
 
 STATIC_URL = '/static/'
