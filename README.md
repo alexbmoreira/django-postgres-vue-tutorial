@@ -1163,9 +1163,22 @@ import django_heroku
 django_heroku.settings(locals())
 ```
 
+Finally, add your Heroku app URL to your `ALLOWED_HOSTS` variable.
+
+```
+ALLOWED_HOSTS = [
+    'django-vue-postgres.herokuapp.com'
+]
+```
+
 ### Static files
 
-I'll add to this once I figure this out. Be sure to run the following command before deploying:
+> This part is tricky, but I got it working this way and will add as I figure it out more
+
+Add Django's `staticfiles` directory to your gitignore list. Then run `collectstatic`
+```shell
+python manage.py collectstatic
+```
 
 ```shell
 heroku config:set DISABLE_COLLECTSTATIC=1
