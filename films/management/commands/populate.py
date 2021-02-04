@@ -24,5 +24,4 @@ class Command(BaseCommand):
             except Exception as e:
                 print(e)
 
-
         Director.objects.bulk_create(directors)

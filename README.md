@@ -440,7 +440,6 @@ class Command(BaseCommand):
             except Exception as e:
                 print(e)
 
-
         Director.objects.bulk_create(directors)
 ```
 > Note: I can create an object with `**` because my fields in my data file match my models. If you scraped from the web and this isn't the case, just create the object manually.
