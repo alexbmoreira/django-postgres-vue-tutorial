@@ -1242,7 +1242,8 @@ Simply add your firebase URL to the `CORS_ORIGIN_WHITELIST` variable
 ```
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
-    'https://django-vue-postgres.web.app'
+    'https://django-vue-postgres.web.app',
+    'https://django-vue-postgres.firebaseapp.com/'
 ]
 ```
 
