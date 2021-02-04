@@ -1077,7 +1077,7 @@ Now on every push Github actions will tell you if there are lint errors that nee
 
 > This assumes you build your app with a separate frontend and backend API as outlines [here](#adding-vuejs)
 
-To learn more about Using Django Apps on Heroku look [here](https://devcenter.heroku.com/articles/django-app-configuration).
+This assumes you have some knowledge of deploying to Heroku (at least the very basics of using the site itself). To learn more about Using Django Apps on Heroku look [here](https://devcenter.heroku.com/articles/deploying-python) and [here](https://devcenter.heroku.com/articles/django-app-configuration).
 
 ### Python Decouple for config vars
 
@@ -1171,6 +1171,7 @@ django_heroku.settings(locals())
 - [ESLint](https://eslint.org/docs/user-guide/configuring)
 - [Flake8](https://flake8.pycqa.org/en/latest/)
 - [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
+- [Heroku](https://www.heroku.com)
 
 ### Helpful links
 
