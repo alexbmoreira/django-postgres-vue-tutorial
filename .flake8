@@ -2,5 +2,5 @@
 exclude = 
 	*migrations*,
 	test_*
-
+ignore = F401
 max-line-length = 119
