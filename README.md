@@ -1242,10 +1242,15 @@ Simply add your firebase URL to the `CORS_ORIGIN_WHITELIST` variable
 ```
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
-    'https://django-vue-postgres.web.app',
-    'https://django-vue-postgres.firebaseapp.com/'
+    'https://django-vue-postgres.web.app'
 ]
 ```
+
+----
+
+## Congrats! 🎉
+
+You've built and deployed a functional webapp with Django, Vue.js, PostgreSQL, and more!
 
 ----
 
@@ -1262,6 +1267,7 @@ CORS_ORIGIN_WHITELIST = [
 - [Flake8](https://flake8.pycqa.org/en/latest/)
 - [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
 - [Heroku](https://www.heroku.com)
+- [Firebase](https://firebase.google.com/)
 
 ### Helpful links
 
