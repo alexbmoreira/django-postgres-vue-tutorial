@@ -137,8 +137,7 @@ USE_TZ = True
 # CORS Settings
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
-    'https://django-vue-postgres.web.app',
-    'https://django-vue-postgres.firebaseapp.com/'
+    'https://django-vue-postgres.web.app'
 ]
 
 STATIC_URL = '/static/'
