@@ -684,7 +684,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export default axios.create({
-	baseURL: '/api',
+	baseURL: process.env.VUE_APP_URL + '/api',
 	timeout: 5000,
 	headers: {
 		'Content-Type': 'application/json',
@@ -692,6 +692,7 @@ export default axios.create({
 	}
 })
 ```
+> If you linked your app with webpack, your `baseURL` should just be `'/api'`. The `process.env.VUE_APP_URL` is there to pull whichever environment variable we need.
 
 ### Making calls
 
@@ -728,6 +729,8 @@ export default {
 }
 </script>
 ```
+
+### Adding CORS
 
 Now just display your data in the Vue template however you like!
 
