@@ -1179,20 +1179,15 @@ ALLOWED_HOSTS = [
 
 ### Static files
 
-> This part is tricky, but I got it working this way and will add as I figure it out more
+> This part is tricky, but I got it working this way and will add as I figure it out more. For now, this is all I had to do.
 
 Add Django's `staticfiles` directory to your gitignore list. Then run `collectstatic`
+
 ```shell
 python manage.py collectstatic
 ```
 
-If pushing to Heroku gives you issues run the following then push...
-
-```shell
-heroku config:set DISABLE_COLLECTSTATIC=1
-```
-
-Then delete the variable and push again.
+Now push and make sure it runs on Heroku's end after it installs all the Python dependencies.
 
 ----
 
