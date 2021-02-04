@@ -416,6 +416,12 @@ python manage.py test films
 
 ## Adding Vue.js
 
+There are two main ways to set up an app with Django and Vue. The first is to have your frontend and backend work as one, and just have Django bundle a built Vue folder and display it on its own. To deploy an app built this way, you will essentially be deploying one Django app, and just use Vue to build the frontend that Django is in charge of showing.
+
+The second way is to have DJango and Vue act entirely separately. With this method, you build an API with Django, deploy that, then build a Vue frontend that calls that API from another location.
+
+There are pros and cons to both, depending on your situation, but in the end you'll be left with a very similar product. I'll show how to link both, but for deployment I'll only show the second methond in this guide.
+
 ### Configure Django to look for files created by Vue
 
 In your top level directory, create a `./templates` folder and add the `index.html` file that you point to above.
