@@ -1295,6 +1295,12 @@ python manage.py collectstatic
 
 Now push and make sure it runs on Heroku's end after it installs all the Python dependencies.
 
+If everything works, run any commands you have to populate your database (if you have them), and you're good to go!
+
+```
+heroku run python manage.py populate
+```
+
 ----
 
 ## Deploying Frontend On Firebase
