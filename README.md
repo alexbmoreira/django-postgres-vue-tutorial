@@ -55,6 +55,12 @@ This setup of using these languages and frameworks together isn't the only way t
 	- [Lint on save with ESLint for frontend (VSCode)](#lint-on-save-with-eslint-for-frontend-vscode)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
     - [Linting on push to Github](#linting-on-push-to-github)
+- [Deploying on Heroku](#deploying-on-heroku)
+    - [Python Decouple for config vars](#python-Decouple-for-config-vars)
+    - [Change database settings](#Change-database-settings)
+    - [Adding a Procfile](#adding-a-procfile)
+    - [Configuring your Django app](#configuring-your-django-app)
+    - [Static files](#static-files)
 - [Reference](#reference)
 
 
@@ -1106,7 +1112,7 @@ from decouple import config
 SECRET_KEY = config('SECRET_KEY')
 ```
 
-### Change Database settings
+### Change database settings
 
 Heroku's default variable for their database is `DATABASE_URL`. Change your database settings to use that in production.
 
@@ -1138,7 +1144,7 @@ web: gunicorn myproject.wsgi
 > `myproject` is the name of whatever directory contains your `wsgi.py` file.
 
 
-### Configuring your Django App
+### Configuring your Django app
 
 Install and configure `django-heroku`.
 
@@ -1155,6 +1161,14 @@ import django_heroku
 
 # Bottom of settings.py
 django_heroku.settings(locals())
+```
+
+### Static files
+
+I'll add to this once I figure this out. Be sure to run the following command before deploying:
+
+```shell
+heroku config:set DISABLE_COLLECTSTATIC=1
 ```
 
 ----
