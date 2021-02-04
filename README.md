@@ -32,12 +32,11 @@ This setup of using these languages and frameworks together isn't the only way t
     - [Create serializers](#create-serializers)
     - [Creating views](#creating-views)
 - [Setting Up Automated Testing](#setting-up-automated-testing)
-- [Adding Vue.js](#adding-vuejs-method-1)
+- [Adding Vue.js](#adding-vuejs)
     - [Configure Django to look for files created by Vue](#configure-django-to-look-for-files-created-by-vue)
     - [Creating a Vue frontend](#creating-a-vue-frontend)
     - [Install webpack bundle tracker for Vue](#install-webpack-bundle-tracker-for-vue)
     - [Install webpack loader for Django](#install-webpack-loader-for-django)
-- [Adding Vue.js](#adding-vuejs-method-2)
 - [Calling the backend API from the frontend](#calling-the-backend-api-from-the-frontend)
     - [Adding environment variables](#adding-environment-variables)
     - [Set up API service](#set-up-api-service)
@@ -1071,6 +1070,92 @@ jobs:
 > The `run: make run-lint` line runs from the makefile created earlier. If you didn't add a makefile, just add the command to run the script. Because of the `set -e` flag, our push will abort on lint errors.
 
 Now on every push Github actions will tell you if there are lint errors that need to be corrected.
+
+----
+
+## Deploying on Heroku
+
+> This assumes you build your app with a separate frontend and backend API as outlines [here](#adding-vuejs)
+
+To learn more about Using Django Apps on Heroku look [here](https://devcenter.heroku.com/articles/django-app-configuration).
+
+### Python Decouple for config vars
+
+> This part may work with `os.environ.get`, but I had issues and am still trying to figure that out. In the meantime, this seems to do the trick.
+
+You'll want a place to put your environment variables once you deploy. To do this install `python-decouple`.
+
+```shell
+pip install python-decouple
+```
+
+Next, create a `.env` file in your root directory (make sure to add it to `.gitignore`) and add your variables.
+
+```
+SECRET_KEY='secret'
+```
+> Note: This file is not for production variables, this is a place to store environment variables for development. Production variables are set on Heroku's end.
+
+Finally, in `settings.py`, import and updated any variables you want hidden in production.
+
+```
+from decouple import config
+
+...
+
+SECRET_KEY = config('SECRET_KEY')
+```
+
+### Change Database settings
+
+Heroku's default variable for their database is `DATABASE_URL`. Change your database settings to use that in production.
+
+```
+DATABASES = {
+    'default': {
+        ...
+
+        'HOST': config('DATABASE_URL', 'localhost'),
+        
+        ...
+    }
+}
+```
+
+### Adding a Procfile
+
+First, install `gunicorn` if you don't already have it.
+
+```shell
+pip install gunicorn
+```
+
+Now create a `Procfile` in your root directory and add the following.
+
+```
+web: gunicorn myproject.wsgi
+```
+> `myproject` is the name of whatever directory contains your `wsgi.py` file.
+
+
+### Installing Django Herkou
+
+Install and configure `django-heroku`.
+
+```shell
+pip install django-heroku
+```
+
+Then in `settings.py`.
+
+```
+import django_heroku
+
+...
+
+# Bottom of settings.py
+django_heroku.settings(locals())
+```
 
 ----
 

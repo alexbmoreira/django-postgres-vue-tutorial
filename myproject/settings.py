@@ -1,4 +1,6 @@
 import os
+import django_heroku
+from decouple import config
 
 """
 Django settings for myproject project.
@@ -22,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!!rfk39k0t17o##$lfa3$j69!cu8dlt4byj9f7nsi0*xfh9s9q'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -84,11 +86,11 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'myproject',
         'USER': 'postgres',
         'PASSWORD': 'root',
-        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'HOST': config('DATABASE_URL', 'localhost'),
         'PORT': '5432',
     }
 }
@@ -143,3 +145,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json')
     }
 }
+
+django_heroku.settings(locals())
