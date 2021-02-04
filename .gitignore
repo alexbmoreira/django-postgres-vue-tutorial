@@ -1,3 +1,6 @@
+.DS_Store
+node_modules
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -139,3 +142,6 @@ cython_debug/
 
 # VSCode Settings
 .vscode
+
+# Webpack Stats
+webpack-stats.json
