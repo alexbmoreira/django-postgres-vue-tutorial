@@ -1089,7 +1089,7 @@ This assumes you have some knowledge of deploying to Heroku (at least the very b
 
 ### Python Decouple for config vars
 
-> This part may work with `os.environ.get`, but I had issues and am still trying to figure that out. In the meantime, this seems to do the trick.
+> This part should work with `os.environ.get`, and can be skipped if that's the way you want to go, but storing environment varables in a file is easy to manage so I went with that route.
 
 You'll want a place to put your environment variables once you deploy. To do this install `python-decouple`.
 
