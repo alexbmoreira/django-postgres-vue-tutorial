@@ -31,6 +31,7 @@ This setup of using these languages and frameworks together isn't the only way t
 - [Django API Extras](#django-api-extras)
     - [Create serializers](#create-serializers)
     - [Creating views](#creating-views)
+- [Manage Commands](#manage-commands)
 - [Setting Up Automated Testing](#setting-up-automated-testing)
 - [Adding Vue.js](#adding-vuejs)
     - [Configure Django to look for files created by Vue](#configure-django-to-look-for-files-created-by-vue)
@@ -382,6 +383,73 @@ urlpatterns = [
 ```
 
 Load up your server, got to /api/\<whatever your urls are\> and you should see whatever data you have in your database. You've made a REST API with Django and PostgreSQL!
+
+----
+
+## Manage Commands
+
+You can write custom commands to run from the command line with `manage.py`. For example, if you have data you scraped from a sitte and want to populate your database, or if you need to fill your database with dummy data for production.
+
+### Creating a command to populate tables
+
+First create the file that will contain all the data you want to fill your database with. In your app directory, create a folder called `management` and a folder called `commands` within there. In your `management/commands` folder, create a file with a name like `_directors.py`. The `_` will make sure you can't call it as a command, and you can put your data in there in dictionary form. This file doesn't have to be in this directory, and it doesn't have to be a `.py` file, but that's easiest for import and using python dictionary objects.
+
+Inside that file, create your data.
+
+```
+data = {
+    "directors": [
+        {
+            "name": "Stanley Kubrick",
+            "birthday": "1928-07-26"
+        },
+        {
+            "name": "Robert Zemeckis",
+            "birthday": "1952-05-14"
+        },
+        {
+            "name": "Martin Scorsese",
+            "birthday": "1942-11-17"
+        },
+        {
+            "name": "Steven Spielberg",
+            "birthday": "1946-12-18"
+        }
+    ]
+}
+```
+
+Next, create a folder in your app directory called `management` and a folder called `commands` within there. In your `management/commands` folder, create a `.py` file named after your command.  If you name a command after an existing Django, it won't override unless your app is higher up in the `INSTALLED_APPS` list in `settings.py`. For more info on that, and about writing custom commands as a whole, see [the docs](https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/#overriding-commands).
+
+In my case I made a `populate.py` file and added the following.
+
+```
+from django.core.management.base import BaseCommand
+from films.models import Director
+from ._directors import data
+
+
+class Command(BaseCommand):
+    help = "Populate the Directors table"
+
+    def handle(self, *args, **options):
+        directors = []
+        for director in data["directors"]:
+            try:
+                directors.append(Director(**director))
+            except Exception as e:
+                print(e)
+
+
+        Director.objects.bulk_create(directors)
+```
+> Note: I can create an object with `**` because my fields in my data file match my models. If you scraped from the web and this isn't the case, just create the object manually.
+
+Now running the command will populate your table!
+
+```shell
+python manage.py populate
+```
 
 ----
 
