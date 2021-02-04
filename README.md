@@ -1128,6 +1128,12 @@ DATABASES = {
 }
 ```
 
+Once you push, migrate your tables
+
+```shell
+heroku run python manage.py migrate
+```
+
 ### Adding a Procfile
 
 First, install `gunicorn` if you don't already have it.
@@ -1180,9 +1186,13 @@ Add Django's `staticfiles` directory to your gitignore list. Then run `collectst
 python manage.py collectstatic
 ```
 
+If pushing to Heroku gives you issues run the following then push...
+
 ```shell
 heroku config:set DISABLE_COLLECTSTATIC=1
 ```
+
+Then delete the variable and push again.
 
 ----
 
