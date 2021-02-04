@@ -1138,7 +1138,7 @@ web: gunicorn myproject.wsgi
 > `myproject` is the name of whatever directory contains your `wsgi.py` file.
 
 
-### Installing Django Herkou
+### Configuring your Django App
 
 Install and configure `django-heroku`.
 
