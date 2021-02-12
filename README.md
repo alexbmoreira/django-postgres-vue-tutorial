@@ -141,6 +141,10 @@ pip install psycopg2
 By default, Django uses SQLite3, change `./myproject/settings.py` to use Postgres instead.
 
 ```
+import os
+
+...
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
