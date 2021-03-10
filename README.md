@@ -398,7 +398,7 @@ You can write custom commands to run from the command line with `manage.py`. For
 
 ### Creating a command to populate tables
 
-First create the file that will contain all the data you want to fill your database with. In your app directory, create a folder called `management` and a folder called `commands` within there. In your `management/commands` folder, create a file with a name like `_directors.py`. The `_` will make sure you can't call it as a command, and you can put your data in there in dictionary form. This file doesn't have to be in this directory, and it doesn't have to be a `.py` file, but that's easiest for import and using python dictionary objects.
+First create the file that will contain all the data you want to fill your database with. In your app directory, create a folder called `management` and a folder called `commands` within there. In your `management/commands` folder, create a file with a name like `_directors.py`. The `_` will make sure you can't call it as a command, and you can put your data in there in dictionary form.
 
 Inside that file, create your data.
 
@@ -424,8 +424,9 @@ data = {
     ]
 }
 ```
+> This file doesn't have to be in this directory, and it doesn't have to be a `.py` file, but that's easiest for import and using python dictionary objects.
 
-Next, create a folder in your app directory called `management` and a folder called `commands` within there. In your `management/commands` folder, create a `.py` file named after your command.  If you name a command after an existing Django, it won't override unless your app is higher up in the `INSTALLED_APPS` list in `settings.py`. For more info on that, and about writing custom commands as a whole, see [the docs](https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/#overriding-commands).
+Next, in your `management/commands` folder, create a `.py` file named after your command.  If you name a command after an existing Django, it won't override unless your app is higher up in the `INSTALLED_APPS` list in `settings.py`. For more info on that, and about writing custom commands as a whole, see [the docs](https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/#overriding-commands).
 
 In my case I made a `populate.py` file and added the following.
 
