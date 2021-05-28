@@ -57,10 +57,10 @@ This setup of a Django/Vue.js app isn't the only way to do things, and perhaps m
     - [Linting Python with Flake8](#linting-python-with-flake8)
 	- [Lint on save with ESLint for frontend (VSCode)](#lint-on-save-with-eslint-for-frontend-vscode)
     - [Auto fix on lint with Vue](#auto-fix-on-lint-with-vue)
-    - [Linting on push to Github](#linting-on-push-to-github)
+    - [Linting on push with Github Actions](#linting-on-push-with-github-actions)
 - [Deploying Backend On Heroku](#deploying-backend-on-heroku)
-    - [Python Decouple for config vars](#python-Decouple-for-config-vars)
-    - [Change database settings](#Change-database-settings)
+    - [Python Decouple for config vars](#python-decouple-for-config-vars)
+    - [Change database settings](#change-database-settings)
     - [Adding a Procfile](#adding-a-procfile)
     - [Configuring your Django app](#configuring-your-django-app)
 - [Deploying Frontend On Firebase](#deploying-frontend-on-firebase)
@@ -105,7 +105,7 @@ cd myproject
 
 Add the Django rest framework to your `INSTALLED_APPS` in `./myproject/settings.py`.
 
-```
+```python
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -140,7 +140,7 @@ pip install psycopg2
 
 By default, Django uses SQLite3, change `./myproject/settings.py` to use Postgres instead.
 
-```
+```python
 import os
 
 ...
@@ -216,7 +216,7 @@ python manage.py startapp films
 
 Add the app to your `INSTALLED_APPS` in `./myproject/settings.py`.
 
-```
+```python
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -235,7 +235,7 @@ INSTALLED_APPS = [
 
 Add models to `./films/models.py` file.
 
-```
+```python
 from django.db import models
 
 class Director(models.Model):
@@ -278,7 +278,7 @@ You should see tables have been created in the database for each of your models.
 
 Register your models in you `./films/admin.py` file.
 
-```
+```python
 from django.contrib import admin
 from films.models import Director, Film
 
@@ -298,7 +298,7 @@ If you already know how to set up a Django Rest Framework API and just needed to
 
 In your `./films` folder, create a file called `serializers.py`. In there, create your ModelSerializers
 
-```
+```python
 from rest_framework import serializers
 from .models import Director, Film
 
@@ -321,7 +321,7 @@ Now we have Models and Serializers for those models. We'll now have to create vi
 
 Create views first in your `./films/views.py` file. This is quite a bit more code than some of the previous topics, so I only create them for directors here.
 
-```
+```python
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -362,7 +362,7 @@ class DirectorDetailAPIView(APIView):
 
 Next, make a `./films/urls.py` file, and create your URLs there. Again, These are just URLs for the two views I made.
 
-```
+```python
 from django.urls import path
 
 from .views import DirectorAPIView, DirectorDetailAPIView
@@ -378,7 +378,7 @@ urlpatterns = [
 
 Finally, set up the URL pattern in your `./myproject/urls.py` file to access your API.
 
-```
+```python
 from django.contrib import admin
 from django.urls import path, include
 
@@ -402,7 +402,7 @@ First create the file that will contain all the data you want to fill your datab
 
 Inside that file, create your data.
 
-```
+```python
 data = {
     "directors": [
         {
@@ -430,7 +430,7 @@ Next, in your `management/commands` folder, create a `.py` file named after your
 
 In my case I made a `populate.py` file and added the following.
 
-```
+```python
 from django.core.management.base import BaseCommand
 from films.models import Director
 from ._directors import data
@@ -461,10 +461,10 @@ python manage.py populate
 
 To add an argument to your command (for exdample, `--clear` to completely clear your table) add the `add_arguments` method to your `Command` class. Then update `handle` to check if the argument was passed.
 
-```
+```python
 class Command(BaseCommand):
     
-    ...
+    # ...
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -505,7 +505,7 @@ To write automated test in Django, create and `./films/tests` directory, and del
 
 In your newly created test directory, create you empty `__init__.py` file. Then add a file for some test functions. Here, I'll make one to test the models: `test_models.py`. A simple test will look something like this:
 
-```
+```python
 from django.test import TestCase
 
 from ..models import Director
@@ -527,7 +527,7 @@ class DirectorTests(TestCase):
 
 I added a function in my `Director` model to turn the name into title case:
 
-```
+```python
     def save(self, *args, **kwargs):
         self.name = self.name.title()
         super().save(*args, **kwargs)
@@ -559,7 +559,7 @@ In your top level directory, create a `./templates` folder and add the `index.ht
 
 This file will use Django templating to render our Vue app.
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -575,7 +575,7 @@ This file will use Django templating to render our Vue app.
 
 Now create a path to your `IndexTemplateView` and import it in your `./myproject/urls.py` file. **I'll only show the lines you need to add** so be careful not to overwrite existing functionality you've build in to your API. First import:
 
-```
+```python
 from django.urls import re_path
 from django.views.generic.base import TemplateView
 ```
@@ -584,7 +584,7 @@ from django.views.generic.base import TemplateView
 
 Then add the URL to your `urlpatterns` array:
 
-```
+```python
 re_path(r'^(?!api(/)?|admin(/)?).*$', TemplateView.as_view(template_name="index.html"), name="entry-point")
 ```
 
@@ -592,7 +592,7 @@ re_path(r'^(?!api(/)?|admin(/)?).*$', TemplateView.as_view(template_name="index.
 
 Then add the `./templates` directory to your settings.py file.
 
-```
+```python
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -635,7 +635,7 @@ npm run serve
 
 We want to have the Vue.js server and Django server running at the same time, and have our Vue files mounted in our Django templates. To do this, install `webpack-bundle-tracker` from your frontend directory.
 
-```
+```shell
 npm install webpack-bundle-tracker@0.4.3
 ```
 
@@ -643,7 +643,7 @@ npm install webpack-bundle-tracker@0.4.3
 
 Next we'll have to add a `./frontend/vue.config.js` file and configure it.
 
-```
+```javascript
 const BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
@@ -701,19 +701,19 @@ pip install django-webpack-loader
 
 Add it to your `./myproject/settings.py` file's `INSTALLED_APPS`.
 
-```
+```python
 INSTALLED_APPS = [
-	...
+    # ...
 
     'webpack_loader',
 
-    ...
+    # ...
 ]
 ```
 
 Also in settings, add a configuration for the webpack loader at the bottom.
 
-```
+```python
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'dist/',
@@ -724,7 +724,7 @@ WEBPACK_LOADER = {
 
 Finally, update your `./templates/index.html` file to load from the webpack loader.
 
-```
+```html
 {% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
@@ -762,7 +762,7 @@ Then go to `localhost` at port `8000` and you should see your Vue frontend runni
 
 However there's one last problem. When clicking links in our sample page that Vue creates for us we see that our URL changes to `http://localhost:8000/http:/0.0.0.0:8080/` which is ugly and weird. To fix this, go to `./frontend/src/router/index.js` and remove the line in the `VueRouter` initialization that says:
 
-```
+```javascript
 base: process.env.BASE_URL,
 ```
 
@@ -780,13 +780,13 @@ In your `./frontend` directory, create two files: `.env.development.local` and  
 
 In `.env.development.local` add:
 
-```
+```shell
 VUE_APP_URL=http://localhost:8000
 ```
 
 In `.env.production.local` add:
 
-```
+```shell
 VUE_APP_URL=[your deployed api URL (Heroku, DigitalOcean, etc.)]
 ```
 > In my experience, the Viariable *must* be `VUE_APP_URL` or it won't work. You can experiment, of course.
@@ -803,7 +803,7 @@ npm install axios
 
 In your `./frontend.src` directory make a directory called `api`, and add `api.service.js` to it. This file will export the functionality used to make HTTP requests to the backend.
 
-```
+```javascript
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
@@ -822,7 +822,7 @@ export default axios.create({
 
 In that same `api` directory, create a file for some API calls. You can call this anything you like, but in my case I'll do `directors.js`. This is where you make backend calls to get data.
 
-```
+```javascript
 import api from '@/api/api.service'
 
 async function getDirectors() {
@@ -837,7 +837,7 @@ export default {
 
 Finally, in the `<script>` tag of whatever component you want to make the call in, import the api function and get the data.
 
-```
+```html
 <script>
 import directorsAPI from "@/api/directors";
 export default {
@@ -870,26 +870,26 @@ pip install django-cors-headers
 
 Then, in your `settings.py` file, add `corsheaders` to the `INSTALLED_APPS`, and add the CORS middleware *above* the common middleware, but below the rest. Read more about Django CORS Headers [here](https://github.com/adamchainz/django-cors-headers).
 
-```
+```python
 INSTALLED_APPS = [
-    ...
+    # ...
     'corsheaders',
-    ...
+    # ...
 ]
 ```
 
-```
+```python
 MIDDLEWARE = [
-    ...
+    # ...
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    ...
+    # ...
 ]
 ```
 
 Finally, add your frontend dev server to the `CORS_ORIGIN_WHITELIST` setting.
 
-```
+```python
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080'
 ]
@@ -922,7 +922,7 @@ Next, configure Tailwind to purge unused styles in production. The `purge: []` a
 
 Now your `tailwind.config.js` should look like this:
 
-```
+```javascript
 module.exports = {
     purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     darkMode: false, // or 'media' or 'class'
@@ -940,7 +940,7 @@ module.exports = {
 
 Create a file in the `./frontend/src/assets/css` directory (if this directory does not exist, create it) called `tailwind.css` and add the following
 
-```
+```css
 /*! @import */
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -963,7 +963,7 @@ This is completely optional and based on preference, but it will go through some
 
 In your `tailwind.config.js` file, add a `screens` section to the `theme` section in `module.exports`
 
-```
+```javascript
 module.exports = {
   // ...
   theme: {
@@ -1000,7 +1000,7 @@ In other words, adding a `flex` class will add the class for every screen, and a
 
 Once you've found a font you like, make note of the `@import` and `font-family:` parts given by Google Fonts. For example, for **Quicksand**:
 
-```
+```css
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 font-family: 'Quicksand', sans-serif;
 ```
@@ -1009,7 +1009,7 @@ Next, go to your `tailwind.config.js` file and add the `fontFamily` section to t
 
 In there, add a class name as a key (this can be anything you like), with and array of strings as a value. The array contains each `font-family:` attribute given by Google Fonts, in order:
 
-```
+```javascript
 module.exports = {
   // ...
   theme: {
@@ -1028,14 +1028,14 @@ Finally, in your `./src/assets/css` directory (or whatever directory your `tailw
 
 In there, add your `@import`:
 
-```
+```css
 /* Quicksand (500), sans-serif */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 ```
 
 Go to `./src/main.js` and import your `fonts.css` file if it is not already imported.
 
-```
+```javascript
 import "./assets/css/fonts.css";
 ```
 
@@ -1051,7 +1051,7 @@ For terminal commands that you run often, a Makefile can make life a lot easier.
 
 Create a `./Makefile` file and populate it with any commands you think you need.
 
-```
+```makefile
 run-frontend:
 	cd frontend && npm run serve
 
@@ -1104,7 +1104,7 @@ flake8 films --config=.flake8
 
 If you installed ESLint when setting up your Vue project, go to whatever configuration file you chose (either `package.json` or `.eslintrc.js`) and change the rules to fit your needs. For a list of rules you can apply, check out the [Prettier](https://prettier.io/docs/en/options.html), [ESLint](https://eslint.org/docs/rules/), or [ESLint-Vue Plugin](https://vuejs.github.io/eslint-plugin-vue/rules/) documentation.
 
-```
+```javascript
 "rules": {
 	"quotes": ["warn", "single"],
 	"semi": ["warn", "always"],
@@ -1115,7 +1115,7 @@ If you installed ESLint when setting up your Vue project, go to whatever configu
 
 Next, in your `.vscode/settings.json` file, add the settings to set the `./frontend` directory as the directory in which ESLint will work, as well as settings to lint on save.
 
-```
+```javascript
 "editor.codeActionsOnSave": {
 	"source.fixAll.eslint": true
 },
@@ -1137,7 +1137,7 @@ npm install -D eslint
 
 In your `./frontend/src/package.json` file change your lint script to run with the `--fix` option.
 
-```
+```javascript
 "scripts": {
 	"serve": "vue-cli-service serve",
 	"build": "vue-cli-service build",
@@ -1147,11 +1147,11 @@ In your `./frontend/src/package.json` file change your lint script to run with t
 
 Now running `npm run lint` will auto fix any errors in your code.
 
-### Linting on push to Github
+### Linting on push with Github Actions
 
 Add a `./scripts` folder and add `lint.sh` to it.
 
-```
+```shell
 #!/bin/bash
 
 set -e
@@ -1164,13 +1164,13 @@ python -m flake8 films --config=.flake8
 
 Give permissions to make your script executable
 
-```
+```shell
 chmod u+x scripts/lint.sh
 ```
 
 In your repository directory add a `.github/workflows` folder and create a `actions.yml` file in it.
 
-```
+```yaml
 name: myproject
 
 on: [push]
@@ -1213,17 +1213,17 @@ pip install python-decouple
 
 Next, create a `.env` file in your root directory (make sure to add it to `.gitignore`) and add your variables.
 
-```
+```shell
 SECRET_KEY='secret'
 ```
 > Note: This file is not for production variables, this is a place to store environment variables for development. Production variables are set on Heroku's end.
 
 Finally, in `settings.py`, import and updated any variables you want hidden in production.
 
-```
+```python
 from decouple import config
 
-...
+# ...
 
 SECRET_KEY = config('SECRET_KEY')
 ```
@@ -1232,14 +1232,14 @@ SECRET_KEY = config('SECRET_KEY')
 
 Heroku's default variable for their database is `DATABASE_URL`. Change your database settings to use that in production.
 
-```
+```python
 DATABASES = {
     'default': {
-        ...
+    # ...
 
         'HOST': config('DATABASE_URL', 'localhost'),
         
-        ...
+    # ...
     }
 }
 ```
@@ -1276,10 +1276,10 @@ pip install django-heroku
 
 Then in `settings.py`.
 
-```
+```python
 import django_heroku
 
-...
+# ...
 
 # Bottom of settings.py
 django_heroku.settings(locals())
@@ -1287,7 +1287,7 @@ django_heroku.settings(locals())
 
 Add your Heroku app URL to your `ALLOWED_HOSTS` variable.
 
-```
+```python
 ALLOWED_HOSTS = [
     'django-vue-postgres.herokuapp.com'
 ]
@@ -1303,7 +1303,7 @@ Now push and make sure it runs on Heroku's end after it installs all the Python 
 
 If everything works, run any commands you have to populate your database (if you have them), and you're good to go!
 
-```
+```shell
 heroku run python manage.py populate
 ```
 
@@ -1319,13 +1319,13 @@ Create a Firebase project.
 
 From your `./frontend` directory, intitialize firebase.
 
-```
+```shell
 firebase init
 ```
 
 These are the settings you'll want to check off:
 
-```
+```shell
 ? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices. 
  ◯ Database: Configure Firebase Realtime Database and deploy rules
  ◯ Firestore: Deploy rules and create indexes for Firestore
@@ -1345,7 +1345,7 @@ These are the settings you'll want to check off:
 
 Once your project is set up, build and deploy!
 
-```
+```shell
 npm run build
 firebase deploy
 ```
@@ -1354,7 +1354,7 @@ firebase deploy
 
 Simply add your firebase URL to the `CORS_ORIGIN_WHITELIST` variable
 
-```
+```python
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
     'https://django-vue-postgres.web.app'
